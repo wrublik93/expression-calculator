@@ -53,10 +53,44 @@ function expressionCalculator(expr) {
 
     for (let i = 0; i < operators.length; ) {
         if(operators.includes('(')) {
-            let leftBracketInExpr = exprWithoutSpace.lastIndexOf('(');
-            let rightBracketInExpr = exprWithoutSpace.indexOf(')');
-            let leftBracketInOperators = operators.lastIndexOf('(');
-            let rightBracketInOperators = operators.indexOf(')');
+            let leftBracketInExpr = '';
+            let rightBracketInExpr = '';
+            let leftBracketInOperators = ''
+            let rightBracketInOperators = '';
+            if(leftBracketCount === 1) {
+                leftBracketInExpr = exprWithoutSpace.lastIndexOf('(');
+                rightBracketInExpr = exprWithoutSpace.indexOf(')');
+                leftBracketInOperators = operators.lastIndexOf('(');
+                rightBracketInOperators = operators.indexOf(')');
+            } else {
+                //console.log(operators);
+                let arrayOper = [];
+                let arrayIndex = [];
+                operators.forEach(function(item, index){
+                    if(item == '(' || item == ')') {
+                        if(arrayOper.includes(')') === false){
+                            arrayOper.push(item);
+                            arrayIndex.push(index);
+                        }
+                    }
+                });
+                let arrayExprOper = [];
+                let arrayExprIndex = [];
+                for(let i = 0; i < exprWithoutSpace.length; i++) {
+                    if(exprWithoutSpace[i] == '(' || exprWithoutSpace[i] == ')'){
+                        if(arrayExprOper.includes(')') === false){
+                            arrayExprOper.push(exprWithoutSpace[i]);
+                            arrayExprIndex.push(i);
+                        }
+                    }
+                }
+                //console.log(arrayIndex, arrayOper);
+                //console.log(arrayExprIndex, arrayExprOper);
+                leftBracketInOperators = arrayIndex[arrayIndex.length - 2];
+                rightBracketInOperators = arrayIndex[arrayIndex.length - 1];
+                leftBracketInExpr = arrayExprIndex[arrayIndex.length - 2];
+                rightBracketInExpr = arrayExprIndex[arrayIndex.length - 1];
+            }
 
             //create substringExpr
             let substringExpr = exprWithoutSpace.substring(leftBracketInExpr + 1, rightBracketInExpr);
@@ -65,7 +99,14 @@ function expressionCalculator(expr) {
 
             //create array with numbers in substringExpr
             let numbersStringSubstring = substringExpr.replace(/[*\/+\-()]/g, ',');
+            //console.log(-numbersSubstring[0] + '');
+            //console.log(numbersStringSubstring);
             let numbersArraySubstring = numbersStringSubstring.split(',');
+            if(numbersSubstring[0] < 0) {
+                let zamena = numbersArraySubstring.indexOf(-numbersSubstring[0] + '');
+                numbersArraySubstring[zamena] = numbersSubstring[0] + '';
+            }
+            //console.log(numbersArraySubstring);
             numbersSubstring = numbersArraySubstring.filter(item => item !== '');
             //console.log(numbersSubstring);
 
@@ -128,7 +169,7 @@ function expressionCalculator(expr) {
                 } else {
                     j = j + 1;
                 }
-               // console.log(numbersSubstring);
+               //console.log(numbersSubstring);
             }
 
             //console.log(numbersSubstring[0]);
@@ -146,16 +187,12 @@ function expressionCalculator(expr) {
 
             exprWithoutSpace = exprWithoutSpace.replace(deleteSubstring, numbersSubstring[0]);
             //console.log(exprWithoutSpace);
-            //numbersString = exprWithoutSpace.replace(/[*\/+\-()]/g, ',');
-           // console.log(numbersString)
-            //numbersArray = numbersString.split(',');
-            //console.log(numbersArray);
-            //numbers = numbersArray.filter(item => item !== '');
 
             //console.log(exprWithoutSpace.replace(deleteSubstring, numbersSubstring[0]));
             let res = rightBracketInOperators - leftBracketInOperators;
             operators.splice(leftBracketInOperators, res + 1);
             //console.log(operators);
+            //leftBracketCount = leftBracketCount - 1;
             i = 0 ;
            
         }else if(operators.includes('*') && operators.includes('/')) {

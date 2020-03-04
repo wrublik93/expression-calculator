@@ -259,20 +259,20 @@ describe("Medium", function() {
     }); 
 });
 
-/* describe("Hard", function() {
-    it("Nested brackets test 1", function() {
+describe("Hard", function() {
+     it("Nested brackets test 1", function() {
         const expr = " (  38 + 52 + 65 - 19  ) * (  72 * 3 / 36 * (  9 / 2 - 17 * 38 / 28  )  ) / 18 / 84 ";
         const result = -10.0227;
         expect(Number(expressionCalculator(expr).toFixed(4))).to.equal(result);
-    });
+    }); 
     
-    it("Nested brackets test 2", function() {
+     it("Nested brackets test 2", function() {
         const expr = " 93 * 30 / 81 * (  78 * 83 / (  71 * 13 - (  14 + 13 - 28 * 62  ) * 62  ) + 99 - (  80 - 89 + 17 * 42  )  ) ";
         const result = -20871.2470;
         expect(Number(expressionCalculator(expr).toFixed(4))).to.equal(result);
-    });
+    }); 
     
-    it("Nested brackets test 3", function() {
+     it("Nested brackets test 3", function() {
         const expr = " 58 * 85 * (  1 + 16 * 7 + (  82 * 31 * (  85 / 75 - 51 - 22  ) + 2 - 24  )  ) * 22 * (  27 + 67 + 0 + 93  ) ";
         const result = -3703376512014.6670;
         expect(Number(expressionCalculator(expr).toFixed(4))).to.equal(result);
@@ -437,5 +437,5 @@ describe("Medium", function() {
         const expr = " 59 - 13 + (  25 * 22 / (  47 / 38 * (  64 / 93 - 91 + 72  ) * 66  ) + 43 - 5  ) * 39 / 55 ";
         const result = 72.6846;
         expect(Number(expressionCalculator(expr).toFixed(4))).to.equal(result);
-    });
-})  */
+    }); 
+}) 
