@@ -4,7 +4,114 @@ function eval() {
 }
 
 function expressionCalculator(expr) {
-    let exprWithoutSpaceArray = [];
+
+    //FIRST SOLUTION
+
+    //give out error if length of expr = 0
+    if(expr.length == 0) {
+        throw new Error('ExpressionError: Length of expression = 0');
+    } 
+    
+    //regular expression and array with elements expr
+    let regExp = /[-+*\/()]|\d+/g;
+    let arrayExpr = expr.match(regExp);
+
+    //define variables
+    let numbersArray = [];
+    let operatorsArray = [];
+    let finalResult = 0;
+
+    //priority for operators
+    const PRIORITY_OPERATORS = {
+        '(': 1,
+        ')': 1,
+        '+': 2,
+        '-': 2,
+        '*': 3,
+        '/': 3,
+    };
+
+    //console.log(arrayExpr);
+
+    //count brackets and give out error if brackets not paired
+    let leftBracket = '(';
+    let rightBracket = ')';
+    let leftBracketCount = 0;
+    let rightBracketCount = 0;
+    for(let i = 0; i < expr.length; i++){
+        if(expr[i] === leftBracket) {
+            leftBracketCount++;
+        } else if(expr[i] === rightBracket) {
+            rightBracketCount++;
+        }
+    };
+
+    //console.log('Left Brackets: ', leftBracketCount);
+    //console.log('Right Brackets: ', rightBracketCount);
+
+    if(leftBracketCount !== rightBracketCount) {
+        throw new Error ('ExpressionError: Brackets must be paired');
+    };
+
+    //implement the function operatorCalculator for calculate values
+    function operatorCalculator (a, operatorType, b) {
+        if(operatorType === '+') {
+            return +a + +b;
+        };
+        if(operatorType === '-') {
+            return +a - +b;
+        };
+        if(operatorType === '*') {
+            return +a * +b;
+        };
+        if(operatorType === '/') {
+            if(b == 0) {
+                throw new Error("TypeError: Division by zero.");
+            } else {
+                return +a / +b;
+            }
+        } 
+    };
+    
+    while (operatorsArray != 0 || arrayExpr.length != 0) {
+        //select the first character of the array
+        let symbolArrayExpr = arrayExpr[0];
+        if (!isNaN(symbolArrayExpr)) {
+            numbersArray.push(symbolArrayExpr);
+            arrayExpr.shift()
+        } else if (symbolArrayExpr == ')') {
+            while (operatorsArray[operatorsArray.length - 1] !== '(') {
+                finalResult = operatorCalculator(numbersArray[numbersArray.length - 2], operatorsArray[operatorsArray.length - 1], numbersArray[numbersArray.length - 1]);
+                numbersArray = numbersArray.slice(0, -2);
+                operatorsArray.pop();
+                numbersArray.push(finalResult);
+            }
+            operatorsArray.pop();
+            arrayExpr.shift();
+        } else if (( PRIORITY_OPERATORS[symbolArrayExpr] > PRIORITY_OPERATORS[operatorsArray[operatorsArray.length-1]] ) ||
+            ( operatorsArray.length == 0 ) || 
+            ( symbolArrayExpr === '(' ) ||  
+            ( numbersArray.length < 1 )) {
+                arrayExpr.shift();
+                operatorsArray.push(symbolArrayExpr);
+        } else {
+            finalResult = operatorCalculator(numbersArray[numbersArray.length - 2], operatorsArray[operatorsArray.length-1], numbersArray[numbersArray.length - 1]);
+            numbersArray = numbersArray.slice(0, -2);
+            operatorsArray.pop();
+            numbersArray.push(finalResult);
+        }
+    }
+    return finalResult;
+
+    //
+    //
+    //
+    //SECOND SOLUTION (EASY level - 100%, MEDIUM - 100%, HARD - only some tests)    =(
+    //
+    //
+    //
+
+    /* let exprWithoutSpaceArray = [];
     let exprArray = expr.split('');
 
     //delete space
@@ -290,7 +397,7 @@ function expressionCalculator(expr) {
     };
     /* console.log('Numbers: ', numbers);
     console.log('Operators: ', operators); */
-    return numbers[0];
+    //return numbers[0];
 }
 
 module.exports = {

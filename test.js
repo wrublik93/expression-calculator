@@ -120,11 +120,11 @@ const { expressionCalculator } = require('./src/index.js');
         const expr = " 39 / 41 + 100 + 45 ";
         const result = 145.9512;
         expect(Number(expressionCalculator(expr).toFixed(4))).to.equal(result);
-    });
+    }); 
 });
 
 describe("Medium", function() {
-      it("Brackets must be paired", function() {
+    it("Brackets must be paired", function() {
         const expr = "1 + 2) * 3";
         expect(() => expressionCalculator(expr)).to.throw("ExpressionError: Brackets must be paired");
     });
@@ -137,7 +137,7 @@ describe("Medium", function() {
     it("Brackets must be paired", function() {
         const expr = "((1 + 2 * 3";
         expect(() => expressionCalculator(expr)).to.throw("ExpressionError: Brackets must be paired");
-    });
+    }); 
 
     it("Brackets test 1", function() {
         const expr = " 20 - 57 * 12 - (  58 + 84 * 32 / 27  ) ";
@@ -256,7 +256,7 @@ describe("Medium", function() {
         const expr = " 52 * 62 * (  61 + 12 - 14 * 79  ) + 39 ";
         const result = -3330353.0000;
         expect(Number(expressionCalculator(expr).toFixed(4))).to.equal(result);
-    }); 
+    });
 }); 
 
 describe("Hard", function() {
