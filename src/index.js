@@ -4,7 +4,6 @@ function eval() {
 }
 
 function expressionCalculator(expr) {
-    let result = 0;
     let exprWithoutSpaceArray = [];
     let exprArray = expr.split('');
 
@@ -33,7 +32,6 @@ function expressionCalculator(expr) {
     };
 
     //error brackets
-    //console.log('Count brackets: ', leftBracketCount, rightBracketCount);
     if(leftBracketCount !== rightBracketCount) {
         throw new Error ('ExpressionError: Brackets must be paired');
     };
@@ -47,54 +45,54 @@ function expressionCalculator(expr) {
     let operatorsString = exprWithoutSpace.replace(/[0-9]/g, '');
     let operatorsArray = operatorsString.split('');
     let operators = operatorsArray.filter(item => item !== '');
-
+    
+    //define two arrays with operators and numbers (substring between brackets)
     let operatorsSubstring = [];
     let numbersSubstring = [];
 
     for (let i = 0; i < operators.length; ) {
+        //check left bracket in operators array
         if(operators.includes('(')) {
-            let leftBracketInExpr = '';
-            let rightBracketInExpr = '';
-            let leftBracketInOperators = ''
-            let rightBracketInOperators = '';
+            let leftBracketInExpr = '';            // index of left bracket in string exprWithoutSpace
+            let rightBracketInExpr = '';           // index of right bracket in string exprWithoutSpace
+            let leftBracketInOperators = ''        // index of left bracket in operators array
+            let rightBracketInOperators = '';      // index of right bracket in operators array
             if(leftBracketCount === 1) {
                 leftBracketInExpr = exprWithoutSpace.lastIndexOf('(');
                 rightBracketInExpr = exprWithoutSpace.indexOf(')');
                 leftBracketInOperators = operators.lastIndexOf('(');
                 rightBracketInOperators = operators.indexOf(')');
             } else {
-                //console.log(operators);
-                let arrayOper = [];
-                let arrayIndex = [];
+                let arrayOperatorsWithBrackets = [];           // array searching for closed brackets in operators array
+                let arrayIndexOperatorsWithBrackets = [];      // array with index of searching for closed brackets in operators array
                 operators.forEach(function(item, index){
                     if(item == '(' || item == ')') {
-                        if(arrayOper.includes(')') === false){
-                            arrayOper.push(item);
-                            arrayIndex.push(index);
+                        if(arrayOperatorsWithBrackets.includes(')') === false){
+                            arrayOperatorsWithBrackets.push(item);
+                            arrayIndexOperatorsWithBrackets.push(index);
                         }
                     }
                 });
-                let arrayExprOper = [];
-                let arrayExprIndex = [];
+                let arrayExprOperatorsWithBrackets = [];           // array searching for closed brackets in string exprWithoutSpace
+                let arrayExprIndexOperatorsWithBrackets = [];      // array with index of searching for closed brackets in string exprWithoutSpace
                 for(let i = 0; i < exprWithoutSpace.length; i++) {
                     if(exprWithoutSpace[i] == '(' || exprWithoutSpace[i] == ')'){
-                        if(arrayExprOper.includes(')') === false){
-                            arrayExprOper.push(exprWithoutSpace[i]);
-                            arrayExprIndex.push(i);
+                        if(arrayExprOperatorsWithBrackets.includes(')') === false){
+                            arrayExprOperatorsWithBrackets.push(exprWithoutSpace[i]);
+                            arrayExprIndexOperatorsWithBrackets.push(i);
                         }
                     }
                 }
-                //console.log(arrayIndex, arrayOper);
-                //console.log(arrayExprIndex, arrayExprOper);
-                leftBracketInOperators = arrayIndex[arrayIndex.length - 2];
-                rightBracketInOperators = arrayIndex[arrayIndex.length - 1];
-                leftBracketInExpr = arrayExprIndex[arrayIndex.length - 2];
-                rightBracketInExpr = arrayExprIndex[arrayIndex.length - 1];
+                leftBracketInOperators = arrayIndexOperatorsWithBrackets[arrayIndexOperatorsWithBrackets.length - 2];
+                rightBracketInOperators = arrayIndexOperatorsWithBrackets[arrayIndexOperatorsWithBrackets.length - 1];
+                leftBracketInExpr = arrayExprIndexOperatorsWithBrackets[arrayExprIndexOperatorsWithBrackets.length - 2];
+                rightBracketInExpr = arrayExprIndexOperatorsWithBrackets[arrayExprIndexOperatorsWithBrackets.length - 1];
             }
 
             //create substringExpr
             let substringExpr = exprWithoutSpace.substring(leftBracketInExpr + 1, rightBracketInExpr);
             let deleteSubstring = exprWithoutSpace.substring(leftBracketInExpr, rightBracketInExpr + 1);
+            //console.log(exprWithoutSpace);
             //console.log(substringExpr);
 
             //create array with numbers in substringExpr
@@ -114,14 +112,24 @@ function expressionCalculator(expr) {
             let operatorsStringSubstring = substringExpr.replace(/[0-9]/g, '');
             let operatorsArraySubstring = operatorsStringSubstring.split('');
             operatorsSubstring = operatorsArraySubstring.filter(item => item !== '');
-            //console.log(operatorsSubstring);
+            if(operatorsSubstring.indexOf('.') > 0){
+                let point = operatorsSubstring.indexOf('.')
+                operatorsSubstring.splice(point, 1)
+            };
+            let otricPosition = 0;
+            numbersSubstring.forEach(function(item, index){
+                if(item < 0) {
+                    otricPosition = otricPosition + index;
+                }
+            });
+            if(otricPosition !== 0) {
+                operatorsSubstring.splice(otricPosition, 1);
+            }
+            //console.log(operatorsSubstring)
+           
             
             let positionFirstSub = numbers.indexOf(numbersSubstring[0]);
             let positionLastSub = numbers.indexOf(numbersSubstring[numbersSubstring.length - 1]);
-
-
-            
-            
 
             for(let j = 0; j < operatorsSubstring.length; ){
                 if(operatorsSubstring.includes('*') && operatorsSubstring.includes('/')) {

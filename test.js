@@ -1,8 +1,8 @@
 const { expect } = require('chai');
 const { expressionCalculator } = require('./src/index.js');
 
- describe("Easy", function() {
-    it("Test simple addition", function() {
+  describe("Easy", function() {
+     it("Test simple addition", function() {
         const expr = "2 + 2";
         const result = 4;
         expect(expressionCalculator(expr)).to.equal(result);
@@ -115,7 +115,7 @@ const { expressionCalculator } = require('./src/index.js');
         const result = -52.1619;
         expect(Number(expressionCalculator(expr).toFixed(4))).to.equal(result);
     });
-    
+
     it("Mixed base test 15", function() {
         const expr = " 39 / 41 + 100 + 45 ";
         const result = 145.9512;
@@ -124,7 +124,7 @@ const { expressionCalculator } = require('./src/index.js');
 });
 
 describe("Medium", function() {
-     it("Brackets must be paired", function() {
+      it("Brackets must be paired", function() {
         const expr = "1 + 2) * 3";
         expect(() => expressionCalculator(expr)).to.throw("ExpressionError: Brackets must be paired");
     });
@@ -252,12 +252,12 @@ describe("Medium", function() {
         expect(Number(expressionCalculator(expr).toFixed(4))).to.equal(result);
     });
     
-   it("Brackets test 20", function() {
+    it("Brackets test 20", function() {
         const expr = " 52 * 62 * (  61 + 12 - 14 * 79  ) + 39 ";
         const result = -3330353.0000;
         expect(Number(expressionCalculator(expr).toFixed(4))).to.equal(result);
     }); 
-});
+}); 
 
 describe("Hard", function() {
      it("Nested brackets test 1", function() {
@@ -431,11 +431,11 @@ describe("Hard", function() {
         const expr = " (  96 / 83 - 53 - (  59 - 91 / 91 - 54  )  ) / (  75 + 4 / (  50 - 80 * 45 + 93 + 18  ) - 76 / 54  ) * 14 + 59 ";
         const result = 48.3764;
         expect(Number(expressionCalculator(expr).toFixed(4))).to.equal(result);
-    });
+    });  
     
     it("Nested brackets test 30", function() {
         const expr = " 59 - 13 + (  25 * 22 / (  47 / 38 * (  64 / 93 - 91 + 72  ) * 66  ) + 43 - 5  ) * 39 / 55 ";
         const result = 72.6846;
         expect(Number(expressionCalculator(expr).toFixed(4))).to.equal(result);
-    }); 
+    });  
 }) 
