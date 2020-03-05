@@ -92,8 +92,8 @@ function expressionCalculator(expr) {
             //create substringExpr
             let substringExpr = exprWithoutSpace.substring(leftBracketInExpr + 1, rightBracketInExpr);
             let deleteSubstring = exprWithoutSpace.substring(leftBracketInExpr, rightBracketInExpr + 1);
-            //console.log(exprWithoutSpace);
-            //console.log(substringExpr);
+            console.log(exprWithoutSpace);
+            console.log(substringExpr);
 
             //create array with numbers in substringExpr
             let numbersStringSubstring = substringExpr.replace(/[*\/+\-()]/g, ',');
@@ -106,7 +106,7 @@ function expressionCalculator(expr) {
             }
             //console.log(numbersArraySubstring);
             numbersSubstring = numbersArraySubstring.filter(item => item !== '');
-            //console.log(numbersSubstring);
+            console.log(numbersSubstring);
 
             //create array with operators in substringExpr
             let operatorsStringSubstring = substringExpr.replace(/[0-9]/g, '');
@@ -125,7 +125,7 @@ function expressionCalculator(expr) {
             if(otricPosition !== 0) {
                 operatorsSubstring.splice(otricPosition, 1);
             }
-            //console.log(operatorsSubstring)
+            console.log(operatorsSubstring)
            
             
             let positionFirstSub = numbers.indexOf(numbersSubstring[0]);
@@ -191,10 +191,14 @@ function expressionCalculator(expr) {
             //console.log(sum);
 
             numbers.splice(positionFirstSub, sum, numbersSubstring[0]);
-            //console.log(numbers);
+            console.log(numbers);
+            console.log(deleteSubstring);
 
             exprWithoutSpace = exprWithoutSpace.replace(deleteSubstring, numbersSubstring[0]);
-            //console.log(exprWithoutSpace);
+            console.log(exprWithoutSpace);
+            if(exprWithoutSpace.indexOf('(') < 0) {
+
+            }
 
             //console.log(exprWithoutSpace.replace(deleteSubstring, numbersSubstring[0]));
             let res = rightBracketInOperators - leftBracketInOperators;
@@ -239,6 +243,7 @@ function expressionCalculator(expr) {
         } else if(operators.includes('+')) {
             let operatorType = '+';
             operator(operatorType);
+            
             i = 0;
         } else if(operators.includes('-')) {
             let operatorType = '-';
@@ -264,6 +269,7 @@ function expressionCalculator(expr) {
         };
         numbers.splice(index, 2, +res);
         operators.splice(index, 1);
+        //console.log(numbers);
     };
 
     function operatorSubstringFunc(a) {
